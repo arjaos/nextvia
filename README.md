@@ -24,14 +24,13 @@ Static files land in `out/` for GitHub Pages.
 
 ## Deploy on every push
 
-Every push to `main` builds the static site and publishes it with GitHub Pages (`.github/workflows/deploy.yml`).
+Live GitHub repo: **[github.com/arjaos/nextvia](https://github.com/arjaos/nextvia)**.
 
-1. Publish this project with **Create repo** as `arjaos/nextvia`.
-2. GitHub repo → **Settings → Pages → Source → GitHub Actions**.
-3. **Settings → Pages → Custom domain** → `nextvia-ks.com`.
-4. Check **Enforce HTTPS** after the certificate appears.
+Every push to `main` builds the static site and publishes it with GitHub Pages (`.github/workflows/deploy.yml`). Pages source is **GitHub Actions**. The custom domain in the repo is `nextvia-ks.com`.
 
-Until the custom domain is attached, GitHub Pages is at `https://arjaos.github.io/nextvia/`. For that URL only, add a repository variable `NEXT_PUBLIC_BASE_PATH` with value `/nextvia`. Remove it once `nextvia-ks.com` is live.
+Until GoDaddy DNS is switched (below), `https://arjaos.github.io/nextvia/` redirects to the old GoDaddy Website Builder page. After the import, GitHub will issue HTTPS for `nextvia-ks.com` — then check **Enforce HTTPS** in **Settings → Pages**.
+
+The repo is public so GitHub Pages works on the free plan. Mail records stay on GoDaddy and are not affected by making the website repo public.
 
 ## GoDaddy DNS for nextvia-ks.com
 
