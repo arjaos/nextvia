@@ -2,11 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/lib/site";
+import { cn } from "cn";
 
 type FormState = {
   name: string;
@@ -30,7 +29,7 @@ export function ContactForm() {
   function validate(next: FormState) {
     const nextErrors: Partial<FormState> = {};
     if (!next.name.trim()) nextErrors.name = "Tell us who to reply to.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(next.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(next.email.trim())) {
       nextErrors.email = "Use a valid email address.";
     }
     if (next.message.trim().length < 12) {
@@ -41,6 +40,7 @@ export function ContactForm() {
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    event.stopPropagation();
     const nextErrors = validate(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
@@ -73,16 +73,17 @@ export function ContactForm() {
           </a>
           .
         </p>
-        <Button
-          className="mt-5 h-10 px-4"
-          variant="outline"
+        <button
+          type="button"
+          className={cn(buttonVariants({ variant: "outline" }), "mt-5 h-10 px-4")}
           onClick={() => {
             setStatus("idle");
             setValues(empty);
+            setErrors({});
           }}
         >
           Send another
-        </Button>
+        </button>
       </div>
     );
   }
@@ -114,11 +115,11 @@ export function ContactForm() {
       />
       <div className="space-y-1.5">
         <Label htmlFor="message">What do you need?</Label>
-        <Textarea
+        <textarea
           id="message"
           name="message"
           rows={6}
-          className="min-h-32 text-sm"
+          className="flex min-h-32 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive"
           aria-invalid={Boolean(errors.message)}
           value={values.message}
           onChange={(event) =>
@@ -130,9 +131,13 @@ export function ContactForm() {
           <p className="text-xs text-destructive">{errors.message}</p>
         ) : null}
       </div>
-      <Button type="submit" disabled={status === "sending"} className="h-11 w-full px-4 sm:w-auto">
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className={cn(buttonVariants({ size: "lg" }), "h-11 w-full px-4 sm:w-auto")}
+      >
         {status === "sending" ? "Opening mail…" : "Send message"}
-      </Button>
+      </button>
     </form>
   );
 }
@@ -155,13 +160,13 @@ function Field({
   return (
     <div className="space-y-1.5">
       <Label htmlFor={id}>{label}</Label>
-      <Input
+      <input
         id={id}
         name={id}
         type={type}
         value={value}
         aria-invalid={Boolean(error)}
-        className="h-10"
+        className="h-10 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive"
         onChange={(event) => onChange(event.target.value)}
       />
       {error ? <p className="text-xs text-destructive">{error}</p> : null}

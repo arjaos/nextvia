@@ -2,23 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Logo } from "@/components/logo";
 import { navItems } from "@/lib/site";
 import { cn } from "cn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/8 bg-[color-mix(in_oklch,var(--background)_84%,transparent)] backdrop-blur-xl">
@@ -56,20 +56,43 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger
-            className="inline-flex size-9 items-center justify-center rounded-lg border border-border md:hidden"
-            aria-label="Open menu"
+        <button
+          type="button"
+          className="inline-flex size-9 items-center justify-center rounded-lg border border-border md:hidden"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+        >
+          {open ? <X className="size-4" /> : <Menu className="size-4" />}
+        </button>
+      </div>
+
+      {open ? (
+        <div className="md:hidden">
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="fixed inset-0 z-50 bg-[#0F0E34]/70"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="fixed inset-y-0 right-0 z-[60] flex w-[min(20rem,88vw)] flex-col border-l border-white/10 bg-[#0F0E34] shadow-2xl"
           >
-            <Menu className="size-4" />
-          </SheetTrigger>
-          <SheetContent side="right" className="bg-background">
-            <SheetHeader>
-              <SheetTitle className="text-left">
-                <Logo />
-              </SheetTitle>
-            </SheetHeader>
-            <nav className="flex flex-col gap-1 px-4" aria-label="Mobile">
+            <div className="flex items-center justify-between border-b border-white/8 px-4 py-4">
+              <Logo />
+              <button
+                type="button"
+                className="inline-flex size-9 items-center justify-center rounded-lg border border-border"
+                aria-label="Close menu"
+                onClick={() => setOpen(false)}
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+            <nav className="flex flex-col gap-1 p-4" aria-label="Mobile">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -91,9 +114,9 @@ export function SiteHeader() {
                 Start a project
               </Link>
             </nav>
-          </SheetContent>
-        </Sheet>
-      </div>
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }
