@@ -4,10 +4,10 @@ export const siteConfig = {
   tagline: "The next path through your network.",
   description:
     "Nextvia sits between systems, technology, and people — designing, deploying, and operating the networks and software companies depend on.",
-  domain: "nextvia.io",
-  url: "https://nextvia.io",
+  domain: "nextvia-ks.com",
+  url: "https://nextvia-ks.com",
   githubRepo: "https://github.com/arjaos/nextvia",
-  email: "hello@nextvia.io",
+  email: "hello@nextvia-ks.com",
   city: "Pristina",
   country: "Kosovo",
   address: "Hajrullah Abdullahu 36, Pristina, Kosovo",

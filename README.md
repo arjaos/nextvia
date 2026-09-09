@@ -2,7 +2,9 @@
 
 Public site for **Nextvia L.L.C.** — networks, telecom, and operational software from Pristina.
 
-The visual system follows the Nextvia brand identity: two overlapping parallelograms (the letter N / a connection between systems), navy `#0F0E34`, cyan `#8FDDFF`, and Helvetica Neue (served on the web as Inter).
+Production domain: **[nextvia-ks.com](https://nextvia-ks.com)** (GoDaddy).
+
+The visual system follows the Nextvia brand identity: two overlapping parallelograms, navy `#0F0E34`, cyan `#8FDDFF`, and Helvetica Neue (served on the web as Inter).
 
 ## Local
 
@@ -24,26 +26,16 @@ Static files land in `out/` for GitHub Pages.
 
 Every push to `main` builds the static site and publishes it with GitHub Pages (`.github/workflows/deploy.yml`).
 
-This Cursor project is a new workspace. Publish it to GitHub with the **Create repo** control (recommended name: `arjaos/nextvia`), then:
+1. Publish this project with **Create repo** as `arjaos/nextvia`.
+2. GitHub repo → **Settings → Pages → Source → GitHub Actions**.
+3. **Settings → Pages → Custom domain** → `nextvia-ks.com`.
+4. Check **Enforce HTTPS** after the certificate appears.
 
-1. In the GitHub repo: **Settings → Pages → Source → GitHub Actions**.
-2. Push to `main`. The **Deploy** workflow publishes the site.
-3. Until a custom domain is attached, GitHub Pages is at `https://arjaos.github.io/nextvia/`. For that URL only, add a repository variable `NEXT_PUBLIC_BASE_PATH` with value `/nextvia`. Remove the variable once `nextvia.io` (or another domain) is live — the `CNAME` file already points at `nextvia.io`.
+Until the custom domain is attached, GitHub Pages is at `https://arjaos.github.io/nextvia/`. For that URL only, add a repository variable `NEXT_PUBLIC_BASE_PATH` with value `/nextvia`. Remove it once `nextvia-ks.com` is live.
 
-This environment cannot log into GitHub for you. `github.com/arjaos/nextvia` was not reachable from here (missing or private).
+## GoDaddy DNS for nextvia-ks.com
 
-## GoDaddy domain
-
-`nextvia.com` is already registered. These Nextvia names are available on GoDaddy — register the one you want, then point DNS at GitHub Pages:
-
-- [nextvia.io](https://www.godaddy.com/domainsearch/find?domainToCheck=nextvia.io&key=gd_mcp_server&itc=gd_mcp_server)
-- [nextvia.app](https://www.godaddy.com/domainsearch/find?domainToCheck=nextvia.app&key=gd_mcp_server&itc=gd_mcp_server)
-- [nextvia.dev](https://www.godaddy.com/domainsearch/find?domainToCheck=nextvia.dev&key=gd_mcp_server&itc=gd_mcp_server)
-- [nextvia.ai](https://www.godaddy.com/domainsearch/find?domainToCheck=nextvia.ai&key=gd_mcp_server&itc=gd_mcp_server)
-
-The site is configured for **nextvia.io**. If you register a different name, change `public/CNAME` and `src/lib/site.ts`.
-
-This environment can check GoDaddy availability. It cannot register a domain or write DNS records. After you own the domain, in GoDaddy DNS:
+The GoDaddy connection in Cursor can check domain names. It cannot write DNS records. Add these in GoDaddy → nextvia-ks.com → DNS:
 
 | Type | Name | Value |
 | --- | --- | --- |
@@ -53,13 +45,13 @@ This environment can check GoDaddy availability. It cannot register a domain or 
 | A | `@` | `185.199.111.153` |
 | CNAME | `www` | `arjaos.github.io` |
 
-Also add the domain under **GitHub → Settings → Pages → Custom domain**.
+Remove any old A/CNAME/parking records for `@` or `www`. No hosting plan or extra server is required.
 
 ## Company
 
 - Nextvia L.L.C., Hajrullah Abdullahu 36, Pristina, Kosovo
 - Founded 2026 · NUI 812421395 · Managing director Arjanit Osmanaj
-- Email: hello@nextvia.io — no phone number is published
+- Email: hello@nextvia-ks.com
 
 ## Stack
 
