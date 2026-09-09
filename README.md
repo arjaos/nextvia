@@ -35,7 +35,27 @@ Until the custom domain is attached, GitHub Pages is at `https://arjaos.github.i
 
 ## GoDaddy DNS for nextvia-ks.com
 
-The GoDaddy connection in Cursor can check domain names. It cannot write DNS records. Add these in GoDaddy → nextvia-ks.com → DNS:
+Zone export dated **2026-09-09** (GoDaddy BIND dump for `nextvia-ks.com`). Nameservers are already GoDaddy’s:
+
+- `ns75.domaincontrol.com`
+- `ns76.domaincontrol.com`
+
+Leave those. Do **not** change nameservers and do **not** move the zone off GoDaddy DNS. GitHub Pages only needs the apex A records and the `www` CNAME in this same zone.
+
+The GoDaddy connection in Cursor can check whether a name is free. It **cannot** create, edit, or delete DNS records. Make the website cutover in GoDaddy → nextvia-ks.com → DNS (or disconnect Website Builder in the GoDaddy site product if it keeps rewriting the apex).
+
+### Delete (Website Builder / parking)
+
+These are what currently publish the parked GoDaddy site. They conflict with GitHub Pages:
+
+| Type | Name | Current value | Action |
+| --- | --- | --- | --- |
+| A | `@` | `WebsiteBuilder Site` | Delete |
+| CNAME | `www` | `@` | Delete |
+
+If GoDaddy shows forwarding, parking, or a Website Builder host on `@` or `www` instead of those exact strings, delete those too. Do not delete Microsoft 365, mail, or DKIM records.
+
+### Add (GitHub Pages)
 
 | Type | Name | Value |
 | --- | --- | --- |
@@ -45,7 +65,26 @@ The GoDaddy connection in Cursor can check domain names. It cannot write DNS rec
 | A | `@` | `185.199.111.153` |
 | CNAME | `www` | `arjaos.github.io` |
 
-Remove any old A/CNAME/parking records for `@` or `www`. No hosting plan or extra server is required.
+No VPS or extra hosting plan is required. GitHub Pages serves the static files from this repo.
+
+### Keep (mail, Microsoft 365, GoDaddy helpers)
+
+The same export already has working Microsoft 365 mail (`MX` → `nextviaks-com01i.mail.protection.outlook.com`) plus leftover GoDaddy email/DKIM helpers. Leave all of these alone:
+
+| Type | Name | Purpose |
+| --- | --- | --- |
+| NS | `@` | `ns75` / `ns76.domaincontrol.com` |
+| TXT | `@` | `NETORGFT21111292.onmicrosoft.com` (Microsoft 365) |
+| TXT | `@` | `v=spf1 include:secureserver.net -all` |
+| TXT | `_dmarc` | DMARC |
+| MX | `@` | Outlook protection |
+| CNAME | `autodiscover`, `lyncdiscover`, `msoid`, `sip` | Microsoft 365 / Teams |
+| CNAME | `selector1._domainkey`, `selector2._domainkey` | Microsoft DKIM |
+| CNAME | `email`, `bounces.cloud.em`, `bounces.cloud2.em`, `sable.cloud._domainkey`, `sable.cloud2._domainkey` | GoDaddy email / DKIM |
+| CNAME | `_domainconnect` | GoDaddy DNS UI |
+| SRV | `_sip._tls`, `_sipfederationtls._tcp` | Microsoft SIP |
+
+SPF still says `include:secureserver.net` while MX points at Microsoft 365. That does not block GitHub Pages. Change SPF later only if you send mail from Microsoft 365 and want the policy to match.
 
 ## Company
 

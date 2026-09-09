@@ -21,65 +21,67 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/8 bg-[color-mix(in_oklch,var(--background)_84%,transparent)] backdrop-blur-xl">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="text-foreground" aria-label="Nextvia home">
-          <Logo />
-        </Link>
-
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
-          {navItems.map((item) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "rounded-lg px-3 py-1.5 text-sm transition-colors",
-                  active
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-          <Link
-            href="/contact"
-            className={cn(buttonVariants({ size: "lg" }), "ml-2 h-9 px-3.5")}
-          >
-            Start a project
+    <>
+      <header className="sticky top-0 z-40 border-b border-white/8 bg-[color-mix(in_oklch,var(--background)_84%,transparent)] backdrop-blur-xl">
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
+          <Link href="/" className="text-foreground" aria-label="Nextvia home">
+            <Logo />
           </Link>
-        </nav>
 
-        <button
-          type="button"
-          className="inline-flex size-9 items-center justify-center rounded-lg border border-border md:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? <X className="size-4" /> : <Menu className="size-4" />}
-        </button>
-      </div>
+          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+            {navItems.map((item) => {
+              const active =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "rounded-lg px-3 py-1.5 text-sm transition-colors",
+                    active
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <Link
+              href="/contact"
+              className={cn(buttonVariants({ size: "lg" }), "ml-2 h-9 px-3.5")}
+            >
+              Start a project
+            </Link>
+          </nav>
+
+          <button
+            type="button"
+            className="inline-flex size-9 items-center justify-center rounded-lg border border-border md:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X className="size-4" /> : <Menu className="size-4" />}
+          </button>
+        </div>
+      </header>
 
       {open ? (
         <div className="md:hidden">
           <button
             type="button"
             aria-label="Close menu"
-            className="fixed inset-0 z-50 bg-[#0F0E34]/70"
+            className="fixed inset-0 z-[80] bg-[#0F0E34]/75"
             onClick={() => setOpen(false)}
           />
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="fixed inset-y-0 right-0 z-[60] flex w-[min(20rem,88vw)] flex-col border-l border-white/10 bg-[#0F0E34] shadow-2xl"
+            className="fixed inset-y-0 right-0 z-[90] flex h-dvh w-[min(20rem,88vw)] flex-col border-l border-white/10 bg-[#0F0E34] shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-white/8 px-4 py-4">
               <Logo />
@@ -117,6 +119,6 @@ export function SiteHeader() {
           </div>
         </div>
       ) : null}
-    </header>
+    </>
   );
 }
