@@ -3,7 +3,7 @@ export const siteConfig = {
   legalName: "Nextvia L.L.C.",
   tagline: "The next path through your network.",
   description:
-    "Nextvia designs, deploys, and operates enterprise networks, telecom systems, and the software that runs on top of them — from Pristina, for companies that cannot afford downtime.",
+    "Nextvia sits between systems, technology, and people — designing, deploying, and operating the networks and software companies depend on.",
   domain: "nextvia.io",
   url: "https://nextvia.io",
   githubRepo: "https://github.com/arjaos/nextvia",
@@ -21,6 +21,12 @@ export const navItems = [
   { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+] as const;
+
+export const connections = [
+  { front: "Provider", back: "Client" },
+  { front: "Hardware", back: "Software" },
+  { front: "Security", back: "Connectivity" },
 ] as const;
 
 export const services = [
