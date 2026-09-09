@@ -55,6 +55,12 @@ This environment can check GoDaddy availability. It cannot register a domain or 
 
 Also add the domain under **GitHub → Settings → Pages → Custom domain**.
 
+## Company
+
+- Nextvia L.L.C., Hajrullah Abdullahu 36, Pristina, Kosovo
+- Founded 2026 · NUI 812421395 · Managing director Arjanit Osmanaj
+- Email: hello@nextvia.io — no phone number is published
+
 ## Stack
 
 Next.js (static export), TypeScript, Tailwind CSS, shadcn/ui.
