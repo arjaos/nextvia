@@ -37,11 +37,13 @@ export default function AboutPage() {
             systems need to stay useful.
           </p>
           <p>
-            The practice is led by engineers who have spent a decade on
-            production networks — campus backbones, ISP access, hospitality
-            and enterprise estates, and the first 5G campus deployment in
-            Kosovo. That is the standard we hold new work to: named protocols,
-            measured cutovers, and documentation that survives the project.
+            The mark is two shapes because Nextvia sits between different
+            technologies and brings them together. The practice is led by
+            engineers who have spent a decade on production networks — campus
+            backbones, ISP access, hospitality and enterprise estates, and
+            campus-mobile work. That is the standard we hold new work to:
+            named protocols, measured cutovers, and documentation that survives
+            the project.
           </p>
           <p>
             We are not a staffing mill and we are not a hardware catalog. If
