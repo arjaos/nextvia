@@ -35,27 +35,31 @@ Until the custom domain is attached, GitHub Pages is at `https://arjaos.github.i
 
 ## GoDaddy DNS for nextvia-ks.com
 
-Zone export dated **2026-09-09** (GoDaddy BIND dump for `nextvia-ks.com`). Nameservers are already GoDaddy’s:
+Import files live in this repo (GoDaddy BIND / RFC 1035, same layout as the 2026-09-09 zone export):
 
-- `ns75.domaincontrol.com`
-- `ns76.domaincontrol.com`
+| File | Use |
+| --- | --- |
+| [`dns/nextvia-ks.com-import.txt`](dns/nextvia-ks.com-import.txt) | **Import this** — GitHub Pages records only |
+| [`dns/nextvia-ks.com.txt`](dns/nextvia-ks.com.txt) | Full intended zone (reference). Do not import this whole file while the current records still exist. |
 
-Leave those. Do **not** change nameservers and do **not** move the zone off GoDaddy DNS. GitHub Pages only needs the apex A records and the `www` CNAME in this same zone.
+Cursor / this repo **cannot** push DNS into GoDaddy. You import the file yourself.
 
-The GoDaddy connection in Cursor can check whether a name is free. It **cannot** create, edit, or delete DNS records. Make the website cutover in GoDaddy → nextvia-ks.com → DNS (or disconnect Website Builder in the GoDaddy site product if it keeps rewriting the apex).
-
-### Delete (Website Builder / parking)
-
-These are what currently publish the parked GoDaddy site. They conflict with GitHub Pages:
+1. In GoDaddy, disconnect Website Builder for nextvia-ks.com if it is still attached (it can rewrite the apex after you change DNS).
+2. GoDaddy → **Domain Portfolio** → **nextvia-ks.com** → **DNS**.
+3. Delete the Website Builder / parking records (leave mail alone):
 
 | Type | Name | Current value | Action |
 | --- | --- | --- | --- |
 | A | `@` | `WebsiteBuilder Site` | Delete |
 | CNAME | `www` | `@` | Delete |
 
-If GoDaddy shows forwarding, parking, or a Website Builder host on `@` or `www` instead of those exact strings, delete those too. Do not delete Microsoft 365, mail, or DKIM records.
+4. **DNS** → **Actions** → **Import Zone File** → choose `dns/nextvia-ks.com-import.txt` → **Apply Zone File**.
 
-### Add (GitHub Pages)
+GoDaddy Import **adds** records and **fails on conflicts**, which is why the import file does not repeat MX, SPF, DKIM, autodiscover, SIP, or NS.
+
+Nameservers stay GoDaddy’s (`ns75.domaincontrol.com` / `ns76.domaincontrol.com`). Do **not** change nameservers.
+
+### What the import adds (GitHub Pages)
 
 | Type | Name | Value |
 | --- | --- | --- |
@@ -63,13 +67,17 @@ If GoDaddy shows forwarding, parking, or a Website Builder host on `@` or `www` 
 | A | `@` | `185.199.109.153` |
 | A | `@` | `185.199.110.153` |
 | A | `@` | `185.199.111.153` |
+| AAAA | `@` | `2606:50c0:8000::153` |
+| AAAA | `@` | `2606:50c0:8001::153` |
+| AAAA | `@` | `2606:50c0:8002::153` |
+| AAAA | `@` | `2606:50c0:8003::153` |
 | CNAME | `www` | `arjaos.github.io` |
 
 No VPS or extra hosting plan is required. GitHub Pages serves the static files from this repo.
 
-### Keep (mail, Microsoft 365, GoDaddy helpers)
+### Kept (mail, Microsoft 365, GoDaddy helpers)
 
-The same export already has working Microsoft 365 mail (`MX` → `nextviaks-com01i.mail.protection.outlook.com`) plus leftover GoDaddy email/DKIM helpers. Leave all of these alone:
+The export already has working Microsoft 365 mail (`MX` → `nextviaks-com01i.mail.protection.outlook.com`). Those records are unchanged in `dns/nextvia-ks.com.txt` and are **not** deleted by the import:
 
 | Type | Name | Purpose |
 | --- | --- | --- |

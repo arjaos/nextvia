@@ -1,0 +1,28 @@
+; Domain: nextvia-ks.com
+; GitHub Pages records only (GoDaddy BIND / RFC 1035).
+;
+; Import this file in GoDaddy AFTER deleting the Website Builder records:
+;   A @  ->  WebsiteBuilder Site
+;   CNAME www  ->  @
+;
+; GoDaddy Import adds records and fails on conflicts, so this file does not
+; repeat existing Microsoft 365 / mail / NS / TXT records.
+;
+; Intended full zone (for reference): dns/nextvia-ks.com.txt
+
+$ORIGIN nextvia-ks.com.
+
+; A Record
+@	3600	 IN 	A	185.199.108.153
+@	3600	 IN 	A	185.199.109.153
+@	3600	 IN 	A	185.199.110.153
+@	3600	 IN 	A	185.199.111.153
+
+; AAAA Record
+@	3600	 IN 	AAAA	2606:50c0:8000::153
+@	3600	 IN 	AAAA	2606:50c0:8001::153
+@	3600	 IN 	AAAA	2606:50c0:8002::153
+@	3600	 IN 	AAAA	2606:50c0:8003::153
+
+; CNAME Record
+www	3600	 IN 	CNAME	arjaos.github.io.
